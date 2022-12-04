@@ -4,13 +4,15 @@
 #include <sdktools_gamerules>
 #include <dhooks>
 
+#pragma newdecls required // enforces new syntax
 #define ZPSMAXPLAYERS 24
 #define Version "1.0"
 #define CVarFlags FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY
 
 // Get round start offset
-public int BasicPerksOffSet;
+DynamicDetour ddOnRoundStart = null;
 
+GameData g_pGameConfig = null;
 
 public Plugin myinfo =
 {
@@ -21,29 +23,38 @@ public Plugin myinfo =
 	url = "https://furranystudio.fr"
 };
 
-public void OnPluginStart()
+public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
-    RegConsoleCmd("sm_showbasicperks", ShowBasicPerks);
+    g_pGameConfig = new GameData("zpsbasicperks");
+    if(g_pGameConfig == null)
+    {
+        SetFailState("Gamedata file zpsbasicperks.txt is missing");
+        return;
+    }
 
-    PrintToServer("------ [Basic Perks] Game Round Before : %d", BasicPerksOffSet);
-
-    new Handle:hGameData = LoadGameConfigFile("zpsbasicperks");
-    BasicPerksOffSet = GameConfGetOffset(hGameData, "OnRoundStart");
-    CloseHandle(hGameData);
-
-    PrintToServer("------ [Basic Perks] Game Round Before : %d", BasicPerksOffSet);
-    
-    //HookEvent("player_spawn", EventRoundStart);
+    ddOnRoundStart = DynamicDetour.FromConf(g_pGameConfig, "OnRoundStart");
+    if(ddOnRoundStart == null)
+    {
+        SetFailState("Failed to setup OnRoundStart detour. Update your Gamedata!");
+        return;
+    }
+    ddOnRoundStart.Enable(Hook_Post, Hook_OnRoundStart);
 }
 
+public MRESReturn Hook_OnRoundStart()
+{   
+    // Round has started
+    PrintCenterTextAll("Round has started");
+    return MRES_Ignored;
+}
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
-    int client = GetClientOfUserId(GetEventInt(event, "userid"));
+    //new client = GetClientOfUserId(GetEventInt(event, "userid"));
 
     // Get round state 
-    int roundState = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
-    PrintCenterTextAll("Round State: %d", roundState);
+    //int roundState = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
+    //PrintCenterTextAll("Round State: %d", roundState);
 
     //ShowBasicPerks(client, client);
     return Plugin_Continue;
