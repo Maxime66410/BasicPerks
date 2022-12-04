@@ -23,7 +23,7 @@ public Plugin myinfo =
 	url = "https://furranystudio.fr"
 };
 
-public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
+public void OnPluginStart()
 {
     g_pGameConfig = new GameData("zpsbasicperks");
     if(g_pGameConfig == null)
@@ -44,19 +44,13 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 public MRESReturn Hook_OnRoundStart()
 {   
     // Round has started
-    PrintCenterTextAll("Round has started");
+    // Open the perk menu
+    
     return MRES_Ignored;
 }
 
 public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
 {
-    //new client = GetClientOfUserId(GetEventInt(event, "userid"));
-
-    // Get round state 
-    //int roundState = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
-    //PrintCenterTextAll("Round State: %d", roundState);
-
-    //ShowBasicPerks(client, client);
     return Plugin_Continue;
 }
 
