@@ -1,0 +1,14 @@
+"Games"
+{
+	"zps"
+	{
+		"Functions"
+		{
+			"ZombieTurnTime"
+			{
+				"windows"	"4984"
+				"linux"		"5060"
+			}
+		}
+	}
+}

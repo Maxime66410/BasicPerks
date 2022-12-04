@@ -2,10 +2,12 @@
 #include <sdktools>
 #include <sdkhooks>
 #include <sdktools_gamerules>
+#include <dhooks>
 
 #define ZPSMAXPLAYERS 24
 #define Version "1.0"
 #define CVarFlags FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY
+
 
 public Plugin myinfo =
 {
@@ -20,9 +22,17 @@ public void OnPluginStart()
 {
     RegConsoleCmd("sm_showbasicperks", ShowBasicPerks);
 
-    //HookEvent("player_spawn", EventRoundStart);
-    // Show menu perks by event start round
-    //HookEvent("round_start", EventRoundStart);
+    Handle hGameData = LoadGameConfigFile("zpsbasicperks.games");
+    if (!hGameData)
+    {
+        SetFailState("Failed to load zpsBasicPerks gamedata.");
+        return;
+    }
+
+    
+
+    
+    HookEvent("player_spawn", EventRoundStart);
 }
 
 
@@ -30,13 +40,11 @@ public Action EventRoundStart(Handle event, const char[] name, bool dontBroadcas
 {
     int client = GetClientOfUserId(GetEventInt(event, "userid"));
 
-    if(RoundState_Preround)
-    {
-        //ShowBasicPerks(client);
-        PrintToConsoleAll("Welcome to Zombie Panic! Source, you can use the command sm_showbasicperks to see the perks available on this server.");
-    }
+    // Get round state 
+    int roundState = GetEntPropEnt(client, Prop_Send, "m_hObserverTarget");
+    PrintCenterTextAll("Round State: %d", roundState);
 
-    ShowBasicPerks(client, client);
+    //ShowBasicPerks(client, client);
     return Plugin_Continue;
 }
 
@@ -62,7 +70,6 @@ public int PanelHandler1(Menu menu, MenuAction action, int param1, int param2)
                 PrintToConsole(param1, "You get Green inoculator and Red inoculator");
                 GivePerks(param1, param2);
                 return;
-                //GivePerks(param1, param2);
             }
             case 3:
             {
@@ -71,7 +78,6 @@ public int PanelHandler1(Menu menu, MenuAction action, int param1, int param2)
                 PrintToConsole(param1, "You get Sledgehammer");
                 GivePerks(param1, param2);
                 return;
-                //GivePerks(param1, param2);
             }
             default:
             {
@@ -137,5 +143,20 @@ public void GivePerks(int client, int perk)
             return;
         }
             
+    }
+}
+
+//  If player hit a zombie or a entity with this function, he will get damage
+public void OnTakeDamage(int &attacker, int &inflictor, int &victim, float &damage, int &damagetype, int &weapon, int &hitgroup, int &dmgflags)
+{
+    if (GetEntProp(victim, Prop_Send, "m_iClass") == 1)
+    {
+        if (GetEntProp(attacker, Prop_Send, "m_iClass") == 2)
+        {
+            if (GetEntProp(attacker, Prop_Send, "m_iPerk") == 3)
+            {
+                PrintCenterText(attacker, "-%f", damage);
+            }
+        }
     }
 }
