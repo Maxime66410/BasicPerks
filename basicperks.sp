@@ -8,7 +8,8 @@
 #define Version "1.0"
 #define CVarFlags FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY
 
-new BasicPerksOffSet = -1;
+// Get round start offset
+public int BasicPerksOffSet;
 
 
 public Plugin myinfo =
@@ -24,19 +25,13 @@ public void OnPluginStart()
 {
     RegConsoleCmd("sm_showbasicperks", ShowBasicPerks);
 
+    PrintToServer("------ [Basic Perks] Game Round Before : %d", BasicPerksOffSet);
+
     new Handle:hGameData = LoadGameConfigFile("zpsbasicperks");
     BasicPerksOffSet = GameConfGetOffset(hGameData, "OnRoundStart");
     CloseHandle(hGameData);
 
-    if(BasicPerksOffSet == -1)
-    {
-        PrintToServer("[Basic Perks] BasicPerks OffSet not found");
-        return;
-    }
-    else
-    {
-        PrintToServer("[Basic Perks] BasicPerks OffSet found");
-    }
+    PrintToServer("------ [Basic Perks] Game Round Before : %d", BasicPerksOffSet);
     
     //HookEvent("player_spawn", EventRoundStart);
 }
