@@ -128,7 +128,7 @@ public void GivePerks(int client, int perk)
         case 1:
         {
             // Runner
-            SetEntPropFloat(client, Prop_Send, "m_flMaxspeed", 5.0);
+            SetEntPropFloat(client, Prop_Send, "m_flMaxspeed", 200.0);
             SetEntityHealth(client, 100 - 15);
             GivePlayerItem(client, "weapon_plank");
             return;
@@ -146,6 +146,8 @@ public void GivePerks(int client, int perk)
            // Tank
             SetEntityHealth(client, 100 + 100);
             GivePlayerAmmo(client, 100, 2, false);
+            GivePlayerAmmo(client, 100, 1, false);
+            GivePlayerAmmo(client, 100, 3, false);
             GivePlayerItem(client, "weapon_sledgehammer");
             return;
         }
