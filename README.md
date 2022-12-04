@@ -16,3 +16,6 @@ A free plugin for everyone!
 - SourceMod Scripting API Reference : https://sm.alliedmods.net/new-api/
 - Zombie Panic! Source Events : https://wiki.alliedmods.net/Zombie_Panic!_Source_Events
 - Zombie Panic! Source API : https://api.zombiepanicsource.com
+- SourcePawn Transitional Syntax : https://wiki.alliedmods.net/SourcePawn_Transitional_Syntax
+- Experimental dynamic detour support : https://forums.alliedmods.net/showpost.php?p=2588686&postcount=589
+- VTable Dumper : https://asherkin.github.io/vtable/
