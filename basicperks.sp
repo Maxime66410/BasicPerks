@@ -44,8 +44,14 @@ public void OnPluginStart()
 public MRESReturn Hook_OnRoundStart()
 {   
     // Round has started
-    // Open the perk menu
-    
+    // Open the perk menu for all players if is not a zombie and if is alive
+    for(int i = 1; i <= MaxClients; i++)
+    {
+        if(IsClientInGame(i))
+        {
+            ShowBasicPerks(i, true);
+        }
+    }
     return MRES_Ignored;
 }
 
@@ -151,18 +157,3 @@ public void GivePerks(int client, int perk)
             
     }
 }
-
-//  If player hit a zombie or a entity with this function, he will get damage
-/*public void OnTakeDamage(int &attacker, int &inflictor, int &victim, float &damage, int &damagetype, int &weapon, int &hitgroup, int &dmgflags)
-{
-    if (GetEntProp(victim, Prop_Send, "m_iClass") == 1)
-    {
-        if (GetEntProp(attacker, Prop_Send, "m_iClass") == 2)
-        {
-            if (GetEntProp(attacker, Prop_Send, "m_iPerk") == 3)
-            {
-                PrintCenterText(attacker, "-%f", damage);
-            }
-        }
-    }
-}*/
