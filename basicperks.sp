@@ -8,6 +8,8 @@
 #define Version "1.0"
 #define CVarFlags FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY
 
+new BasicPerksOffSet = -1;
+
 
 public Plugin myinfo =
 {
@@ -22,17 +24,21 @@ public void OnPluginStart()
 {
     RegConsoleCmd("sm_showbasicperks", ShowBasicPerks);
 
-    Handle hGameData = LoadGameConfigFile("zpsbasicperks.games");
-    if (!hGameData)
+    new Handle:hGameData = LoadGameConfigFile("zpsbasicperks");
+    BasicPerksOffSet = GameConfGetOffset(hGameData, "OnRoundStart");
+    CloseHandle(hGameData);
+
+    if(BasicPerksOffSet == -1)
     {
-        SetFailState("Failed to load zpsBasicPerks gamedata.");
+        PrintToServer("[Basic Perks] BasicPerks OffSet not found");
         return;
     }
-
+    else
+    {
+        PrintToServer("[Basic Perks] BasicPerks OffSet found");
+    }
     
-
-    
-    HookEvent("player_spawn", EventRoundStart);
+    //HookEvent("player_spawn", EventRoundStart);
 }
 
 
@@ -147,7 +153,7 @@ public void GivePerks(int client, int perk)
 }
 
 //  If player hit a zombie or a entity with this function, he will get damage
-public void OnTakeDamage(int &attacker, int &inflictor, int &victim, float &damage, int &damagetype, int &weapon, int &hitgroup, int &dmgflags)
+/*public void OnTakeDamage(int &attacker, int &inflictor, int &victim, float &damage, int &damagetype, int &weapon, int &hitgroup, int &dmgflags)
 {
     if (GetEntProp(victim, Prop_Send, "m_iClass") == 1)
     {
@@ -159,4 +165,4 @@ public void OnTakeDamage(int &attacker, int &inflictor, int &victim, float &dama
             }
         }
     }
-}
+}*/

@@ -1,0 +1,24 @@
+"Games"
+{
+    "zps"
+    {
+        "Signatures"
+        {
+            "CZombiePanic::RoundStart"
+            {
+                "library"   "server"
+                "linux"     "@_ZN12CZombiePanic10RoundStartEv"
+            }
+        }
+        "Functions"
+        {
+            "OnRoundStart"
+            {
+                "signature" "CZombiePanic::RoundStart"
+                "callconv"  "thiscall"
+                "return"    "void"
+                "this"      "ignore"
+            }
+        }
+    }
+}
