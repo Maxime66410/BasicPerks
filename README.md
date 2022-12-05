@@ -20,6 +20,6 @@ A free plugin for everyone!
 - Experimental dynamic detour support : https://forums.alliedmods.net/showpost.php?p=2588686&postcount=589
 - VTable Dumper : https://asherkin.github.io/vtable/
 
-# Command Line in Server to Dump all information
+# Command Line in Server to Dump to get all information of the game
 - sm_dump_netprops netprops.txt
 - sm_dump_datamaps datamaps.txt
