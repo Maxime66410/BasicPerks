@@ -43,15 +43,33 @@ public void OnPluginStart()
 
 public MRESReturn Hook_OnRoundStart()
 {   
+    // Get all players
+    int iPlayers = MaxClients;
+    for(int i = 1; i <= iPlayers; i++)
+    {
+        // Check if player is connected
+        if(IsClientInGame(i))
+        { 
+            // Get player's class
+            int iClass = GetClientTeam(i);
+
+            // Check if player is not a zombie and not a spectator
+            if(iClass == 2)
+            {
+                // Give player perks
+                ShowBasicPerks(i, true);
+            }
+        }
+    }
     // Round has started
     // Open the perk menu for all players if is not a zombie and if is alive
-    for(int i = 1; i <= MaxClients; i++)
+    /*for(int i = 1; i <= MaxClients; i++)
     {
-        if(IsClientInGame(i))
+        if(IsClientInGame(i) && !i.IsZombie())
         {
             ShowBasicPerks(i, true);
         }
-    }
+    }*/
     return MRES_Ignored;
 }
 
