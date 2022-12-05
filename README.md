@@ -19,3 +19,7 @@ A free plugin for everyone!
 - SourcePawn Transitional Syntax : https://wiki.alliedmods.net/SourcePawn_Transitional_Syntax
 - Experimental dynamic detour support : https://forums.alliedmods.net/showpost.php?p=2588686&postcount=589
 - VTable Dumper : https://asherkin.github.io/vtable/
+
+# Command Line in Server to Dump all information
+- sm_dump_netprops netprops.txt
+- sm_dump_datamaps datamaps.txt
