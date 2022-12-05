@@ -43,6 +43,7 @@ public void OnPluginStart()
 
 public MRESReturn Hook_OnRoundStart()
 {   
+    // Round has started
     // Get all players
     int iPlayers = MaxClients;
     for(int i = 1; i <= iPlayers; i++)
@@ -61,15 +62,6 @@ public MRESReturn Hook_OnRoundStart()
             }
         }
     }
-    // Round has started
-    // Open the perk menu for all players if is not a zombie and if is alive
-    /*for(int i = 1; i <= MaxClients; i++)
-    {
-        if(IsClientInGame(i) && !i.IsZombie())
-        {
-            ShowBasicPerks(i, true);
-        }
-    }*/
     return MRES_Ignored;
 }
 
@@ -162,10 +154,32 @@ public void GivePerks(int client, int perk)
         case 3:
         {
            // Tank
+            
+            // Strip all weapons
+            // Get all Inventory m_iCurrentInventorySlot
+            int iInventory = GetEntPropEnt(client, Prop_Send, "m_hMyWeapons");
+            if(iInventory != 0)
+            {
+                int iInventoryCount = GetEntPropArraySize(client, Prop_Send, "m_hMyWeapons");
+                //PrintToChatAll("Inventory Count : %d", iInventoryCount);
+                for(int i = 0; i < iInventoryCount; i++)
+                {
+                    int iInventorySlot = GetEntPropEnt(client, Prop_Send, "m_hMyWeapons", i);
+                    if(iInventorySlot != 0 && iInventorySlot >= 1)
+                    {
+                        // CStripWeapons
+                        //PrintToChatAll("Inventory Slot : %d", iInventorySlot);
+                        RemovePlayerItem(client, iInventorySlot);
+                    }
+                }
+            }
+
+            // Give Tank Perks
             SetEntityHealth(client, 100 + 100);
             GivePlayerAmmo(client, 100, 2, false);
             GivePlayerAmmo(client, 100, 1, false);
             GivePlayerAmmo(client, 100, 3, false);
+            // Give player sledgehammer in slot 1
             GivePlayerItem(client, "weapon_sledgehammer");
             return;
         }
