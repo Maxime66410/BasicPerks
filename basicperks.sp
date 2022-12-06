@@ -161,7 +161,7 @@ public void GivePerks(int client, int perk)
             if(iInventory != 0)
             {
                 int iInventoryCount = GetEntPropArraySize(client, Prop_Send, "m_hMyWeapons");
-                //PrintToChatAll("Inventory Count : %d", iInventoryCount);
+                /*PrintToChatAll("Inventory Count : %d", iInventoryCount);*/
                 for(int i = 0; i < iInventoryCount; i++)
                 {
                     int iInventorySlot = GetEntPropEnt(client, Prop_Send, "m_hMyWeapons", i);
